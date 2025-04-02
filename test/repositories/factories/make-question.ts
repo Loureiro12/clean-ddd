@@ -12,9 +12,9 @@ export function makeQuestion(
 ) {
   const question = Question.create(
     {
+      authorId: new UniqueEntityID(),
       title: faker.lorem.sentence(),
       content: faker.lorem.text(),
-      authorId: new UniqueEntityID('author-1'),
       ...override,
     },
     id,
