@@ -1,14 +1,20 @@
-import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repositories'
-import { FetchQuestionAnswersSlugUseCase } from './fetch-question-answers'
-import { makeAnswer } from 'test/repositories/factories/make-answers'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
+import { FetchQuestionAnswersSlugUseCase } from './fetch-question-answers'
+import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repositories'
+import { makeAnswer } from 'test/repositories/factories/make-answers'
 
+let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: FetchQuestionAnswersSlugUseCase
 
-describe('Fetch Questions Answers', () => {
+describe('Fetch Question Answers', () => {
   beforeEach(() => {
-    inMemoryAnswersRepository = new InMemoryAnswersRepository()
+    inMemoryAnswerAttachmentsRepository =
+      new InMemoryAnswerAttachmentsRepository()
+    inMemoryAnswersRepository = new InMemoryAnswersRepository(
+      inMemoryAnswerAttachmentsRepository,
+    )
     sut = new FetchQuestionAnswersSlugUseCase(inMemoryAnswersRepository)
   })
 
@@ -30,8 +36,8 @@ describe('Fetch Questions Answers', () => {
     )
 
     const result = await sut.execute({
-      page: 1,
       questionId: 'question-1',
+      page: 1,
     })
 
     expect(result.value?.answers).toHaveLength(3)
@@ -41,7 +47,7 @@ describe('Fetch Questions Answers', () => {
     for (let i = 1; i <= 22; i++) {
       await inMemoryAnswersRepository.create(
         makeAnswer({
-          questionId: new UniqueEntityID(`question-1`),
+          questionId: new UniqueEntityID('question-1'),
         }),
       )
     }
