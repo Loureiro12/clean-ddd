@@ -1,6 +1,6 @@
 import { DeleteAnswerUseCase } from './delete-answer'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed-error'
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { makeAnswerAttachment } from 'test/repositories/factories/make-answer-attachments'
 import { makeAnswer } from 'test/repositories/factories/make-answers'
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
